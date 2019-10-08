@@ -8,13 +8,10 @@ Language model examples -- tutorial code for newgrads at TIAL lab.
 * Stats: 
     * train: from 15522 files -- wc >> 1,181,752 sents; 14,363,366 tokens
     * valid: from 3137 files -- wc >> 268,991 sents; 2,841,422 tokens
-* Set clean of disfluencies:
-    * train: from 15522 files -- wc >>  sents; tokens
-    * valid: from 3137 files -- wc >>  sents; tokens
 
 # Steps
 Some of these are already done (this is for documentation purposes only)
-1. Split to train/valid:
+1. Split to train/valid (should be done already -- skip):
 Raw data: mv fisher/text/fsh_1* fisher_disf/valid/
           mv fisher/text/* fisher_disf/train/
 
@@ -22,12 +19,12 @@ Clean data: mv fisher/cleaned/fsh_1* fisher/cleaned/valid/
             mv fisher/cleaned/* fisher/cleaned/train/ 
 
 
-2. Preprocessings:
+2. Preprocessings (also should be done already -- skip):
     2a0. (if files has associcated features -- dtok set):
-    `./grep_words.sh {train,valid}`
+    `./src/grep_words.sh {train,valid}`
 
     2a1. (clean and dtok set): merge words into sentences; this takes individual files from `fisher/cleaned/{train,valid}` and puts them in `fisher/fisher_clean/{train,valid}`
-    `./merge_lines.sh {train,valid}`
+    `./src/merge_lines.sh {train,valid}`
 
     2b. make big text file for ngram models (in both versions)
     `cat train/* > train.txt`
@@ -44,19 +41,19 @@ Clean data: mv fisher/cleaned/fsh_1* fisher/cleaned/valid/
     ```
     At this point only train.txt and valid.txt have this fix
 
-3. Make vocabulary from train.txt files:
-`python make_vocab.py --step make_vocab --dtype {disf,clean,dtok}`
+3. Make vocabulary from train.txt files (specific to ngrams):
+`python ngrams/make_vocab.py --step make_vocab --dtype {disf,clean,dtok}`
 
-4. Need this for LSTM model only: split train.txt and valid.txt into smaller chunks to facilitate parallelization:
+4. Need this for LSTM model only: split train.txt and valid.txt into smaller chunks to facilitate parallelization (do this in the directory of your data):
 ```
 split -d -n 40 train.txt
 split -d -n 10 valid.txt
 ```
 
 5. train ngrams
-`./ngram-lms.sh {disf,clean,dtok}`
+`.ngrams/ngram-lms.sh {disf,clean,dtok}`
 
-6. Prepare switchboard (or other dataset) sentences to compute ppl score:
+6. Prepare switchboard (or other dataset) sentences to compute ppl score (should also be done already -- skip):
 `python prep_lm_sentences.py`
 
 This produces swbd_sents.tsv with turn, sent_num etc. info and ptb as well as ms
@@ -79,7 +76,7 @@ versions of the sentences
 
 8. Convert OOV tokens to <unk> -- preparation step for LSTM LM models:
 ```
-python lstm_lm/make_vocab.py \
+python src/make_vocab.py \
    --train_file {x01,..} \
    --dtype {disf,clean,dtok} \
    --unk_split {train,valid}_splits \
@@ -87,7 +84,7 @@ python lstm_lm/make_vocab.py \
 ```
 
 Batching this:
-`./run_make_vocab.sh {valid,train} {clean,disf,dtok}`
+`src/run_make_vocab.sh {valid,train} {clean,disf,dtok}`
 Then `cat x*_with_unk files > {train,valid}_with_unk.txt`
 
 9. Prepare bucketed data for training LSTM LMs:
