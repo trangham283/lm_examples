@@ -1,6 +1,10 @@
 # lm_examples
 Language model examples -- tutorial code for newgrads at TIAL lab.
 
+# Dependencies
+* SRI LM: /g/tial/sw/pkgs/srilm-1.7.1/bin/i686-m64/
+* pytorch 0.4.0, cuda (or just use the CPU version)
+
 # Fisher data set
 * Original: /g/ssli/projects/disfluencies/fisher
 * Various versions split to train and validation: `/g/ssli/projects/disfluencies/ttmt001/fisher_{clean,disf,dtok}`
