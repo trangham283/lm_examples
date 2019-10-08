@@ -99,7 +99,7 @@ NOTE: need to add special words to both clean and disf fisher vocabs:
 10. Train LSTM LM on fisher and score on SWBD:
 `lstm_lm/job{5000,5001,5002}.sh`
 
-11. Make table of scores:
+11. Make table of scores (optional):
 ```
 lstm_lm/run_eval_lstm.sh disf 5000 {ms,ptb}
 lstm_lm/run_eval_lstm.sh clean 5001 {ms,ptb}
