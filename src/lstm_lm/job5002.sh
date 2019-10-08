@@ -11,14 +11,15 @@ DTYPE=dtok
 emsize=256
 nhid=128
 
-cd /homes/ttmt001/transitory/prosodic-anomalies/lstm_lm
+basedir=/homes/ttmt001/transitory/prosodic-anomalies/lstm_lm
+cd $basedir
 # Training
 python train_lm.py \
     --epochs 50 --dtype $DTYPE \
     --emsize $emsize --nhid $nhid \
     --batch_size 128  --seed $SEED \
     --save /g/ssli/projects/disfluencies/ttmt001/fisher_$DTYPE/lstm-lm-${RUN_ID}.pt \
-    --cuda >> job${RUN_ID}.log
+    --cuda >> $baseidr/logs/job${RUN_ID}.log
 
 # score on switchboard data
 for ftype in ms ptb
@@ -29,5 +30,5 @@ do
         --nhid $nhid \
         --seed $SEED \
         --save /g/ssli/projects/disfluencies/ttmt001/fisher_$DTYPE/lstm-lm-${RUN_ID}.pt \
-        --ftype $ftype --cuda --eos >> job${RUN_ID}.log
+        --ftype $ftype --cuda --eos >> $basedir/logs/job${RUN_ID}.log
 done

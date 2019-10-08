@@ -74,7 +74,7 @@ versions of the sentences
 7. Compute ngram scores:
 `ngrams/ngram-eval.sh {disf,clean,dtok} {ms,ptb}`
 
-8. Convert OOV tokens to <unk> -- preparation step for LSTM LM models:
+8. Convert OOV tokens to `<unk>` -- preparation step for LSTM LM models:
 ```
 python src/make_vocab.py \
    --train_file {x01,..} \
