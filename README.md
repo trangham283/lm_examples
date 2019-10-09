@@ -35,17 +35,19 @@ mv fisher/text/* fisher_disf/train/
     
     `./src/grep_words.sh {train,valid}`
 
-   2a1. (clean and dtok set): merge words into sentences; this takes individual files from `fisher/cleaned/{train,valid}` and puts them in `fisher/fisher_clean/{train,valid}`
+   2a1. (clean and dtok set): merge words into sentences; this takes individual files from `fisher/cleaned/{train,valid}` and puts them in `fisher/fisher_clean/{train,valid}`:
     
     `./src/merge_lines.sh {train,valid}`
 
-   2b. make big text file to be used in ngram models
+   2b. make big text file to be used in ngram models:
+   
     ```
     cat train/* > train.txt
     cat valid/* > valid.txt
     ```
 
-   2c. change "s" to "'s" in train.txt and valid.txt (clean and disf versions, not in dtok version)
+   2c. change "s" to "'s" in train.txt and valid.txt (clean and disf versions, not in dtok version):
+   
     ```
     %s/\<s\>/'s/g
     %s/\<ll\>/'ll/g
