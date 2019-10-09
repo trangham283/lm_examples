@@ -20,6 +20,7 @@ Recommendation: use the dtok version.
 
 # Steps
 Some of these are already done (this is for documentation purposes only)
+
 **1. Split to train/valid** (should be done already -- skip):
 
 Raw data: 
@@ -29,22 +30,22 @@ mv fisher/text/* fisher_disf/train/
 ```
 
 **2. Preprocessings** (also should be done already -- skip):
-
-    2a0. (if files have associcated features -- dtok set):
+    
+   2a0. (if files have associcated features -- dtok set):
     
     `./src/grep_words.sh {train,valid}`
 
-    2a1. (clean and dtok set): merge words into sentences; this takes individual files from `fisher/cleaned/{train,valid}` and puts them in `fisher/fisher_clean/{train,valid}`
+   2a1. (clean and dtok set): merge words into sentences; this takes individual files from `fisher/cleaned/{train,valid}` and puts them in `fisher/fisher_clean/{train,valid}`
     
     `./src/merge_lines.sh {train,valid}`
 
-    2b. make big text file to be used in ngram models
+   2b. make big text file to be used in ngram models
     ```
     cat train/* > train.txt
     cat valid/* > valid.txt
     ```
 
-    2c. change "s" to "'s" in train.txt and valid.txt (clean and disf versions, not in dtok version)
+   2c. change "s" to "'s" in train.txt and valid.txt (clean and disf versions, not in dtok version)
     ```
     %s/\<s\>/'s/g
     %s/\<ll\>/'ll/g
