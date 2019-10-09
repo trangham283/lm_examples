@@ -67,7 +67,7 @@ split -d -n 10 valid.txt
 
 This produces swbd_sents.tsv with turn, sent_num etc. info and ptb as well as ms versions of the sentences. 
 * ptb = Penn Treebank version of transcripts
-* ms = Mississipi State version of transcripts
+* ms = Mississippi State version of transcripts
 For your purposes, you don't need to worry about the differences. Just pick ptb or ms.
 
     6b. For ngram score computations -- produce text files one sentence per line
