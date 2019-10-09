@@ -20,7 +20,7 @@ Recommendation: use the dtok version.
 
 # Steps
 Some of these are already done (this is for documentation purposes only)
-1. Split to train/valid (should be done already -- skip):
+**1. Split to train/valid** (should be done already -- skip):
 
 Raw data: 
 ```
@@ -28,7 +28,7 @@ mv fisher/text/fsh_1* fisher_disf/valid/
 mv fisher/text/* fisher_disf/train/
 ```
 
-2. Preprocessings (also should be done already -- skip):
+**2. Preprocessings** (also should be done already -- skip):
 
     2a0. (if files have associcated features -- dtok set):
     
@@ -62,22 +62,23 @@ The outputs of the next steps are also in that directory, but I recommend studyi
 for your own understanding and practice.
 
 
-3. Make vocabulary from train.txt files (specific to ngrams):
+**3. Make vocabulary from training files** (specific to ngrams):
 
 `python ngrams/make_vocab.py --step make_vocab --dtype {disf,clean,dtok}`
 
-4. Need this for LSTM model only: split train.txt and valid.txt into smaller chunks to facilitate parallelization (do this in the directory of your data):
+**4. Split to smaller chunks:** 
+Need this for LSTM model only -- split train.txt and valid.txt into smaller chunks to facilitate parallelization (do this in the directory of your data):
 
 ```
 split -d -n 40 train.txt
 split -d -n 10 valid.txt
 ```
 
-5. train ngrams:
+**5. Train ngrams:**
 
 `./src/ngrams/ngram-lms.sh {disf,clean,dtok}`
 
-6. Prepare switchboard (or other dataset) sentences to compute ppl score (should also be done already -- skip):
+**6. Prepare switchboard** (or other dataset) sentences to compute ppl score (should also be done already -- skip):
 
 `python src/prep_lm_sentences.py`
 
@@ -102,11 +103,11 @@ For ngram score computations -- produce text files one sentence per line:
  cut -f6 swbd_sents_with_ann_notok.tsv > swbd_ptb_sents_notok.txt
  ```
 
-7. Compute ngram scores:
+**7. Compute ngram scores:**
 
 `./src/ngrams/ngram-eval.sh {disf,clean,dtok} {ms,ptb}`
 
-8. Convert OOV tokens to `<unk>` -- preparation step for LSTM LM models:
+**8. Convert OOV tokens** to `<unk>` -- preparation step for LSTM LM models:
 ```
 python src/make_vocab.py \
    --train_file {x01,..} \
@@ -123,7 +124,7 @@ Then
 
 `cat x*_with_unk files > {train,valid}_with_unk.txt`
 
-9. Prepare bucketed data for training LSTM LMs:
+**9. Prepare bucketed data** for training LSTM LMs:
 
 NOTE: need to add special words to both clean and disf fisher vocabs: 
 
@@ -131,11 +132,11 @@ NOTE: need to add special words to both clean and disf fisher vocabs:
 
 `python src/lstm_lm/data_preprocess.py --dtype {disf,clean,dtok} --split {valid,train}`
 
-10. Train LSTM LM on fisher and score on SWBD:
+**10. Train LSTM language model** on fisher and score on SWBD:
 
 `./src/lstm_lm/job{5000,5001,5002}.sh`
 
-11. Make table of scores (optional):
+**11. Make table of scores** (optional):
 
 ```
 lstm_lm/run_eval_lstm.sh disf 5000 {ms,ptb}
