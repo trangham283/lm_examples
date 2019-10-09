@@ -87,20 +87,20 @@ This produces swbd_sents.tsv with turn, sent_num etc. info and ptb as well as ms
 
 For your purposes, you don't need to worry about the differences. Note, though that ms tokens don't split contractions while ptb ones do (e.g. "it's" in ms, "it 's" in ptb). So if you've been using the dtok version, it's better to choose ms; if you've been using disf or clean, use ptb.
 
-    6b. For ngram score computations -- produce text files one sentence per line:
-    
-    ```
-    cut -f5 swbd_sents.tsv > swbd_ms_sents.txt
-    cut -f6 swbd_sents.tsv > swbd_ptb_sents.txt
-    ```
-    
-    Then remove header line
-    OR
-    
-    ```
-    cut -f5 swbd_sents_with_ann_notok.tsv > swbd_ms_sents_notok.txt
-    cut -f6 swbd_sents_with_ann_notok.tsv > swbd_ptb_sents_notok.txt
-    ```
+For ngram score computations -- produce text files one sentence per line:
+
+ ```
+ cut -f5 swbd_sents.tsv > swbd_ms_sents.txt
+ cut -f6 swbd_sents.tsv > swbd_ptb_sents.txt
+ ```
+
+ Then remove header line
+ OR
+
+ ```
+ cut -f5 swbd_sents_with_ann_notok.tsv > swbd_ms_sents_notok.txt
+ cut -f6 swbd_sents_with_ann_notok.tsv > swbd_ptb_sents_notok.txt
+ ```
 
 7. Compute ngram scores:
 
