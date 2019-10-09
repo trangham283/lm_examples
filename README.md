@@ -1,5 +1,5 @@
 # lm_examples
-Language model examples -- tutorial code for newgrads at TIAL lab.
+Language model examples -- tutorial code for new grad students at TIAL lab.
 
 # Dependencies
 * SRI LM: /g/tial/sw/pkgs/srilm-1.7.1/bin/i686-m64/
@@ -8,33 +8,38 @@ Language model examples -- tutorial code for newgrads at TIAL lab.
 # Fisher data set
 * Original: /g/ssli/projects/disfluencies/fisher
 * Various versions split to train and validation: `/g/ssli/projects/disfluencies/ttmt001/fisher_{clean,disf,dtok}`
+    * disf: original version with disfluencies
+    * clean: version cleaned of disfluencies
+    * dtok: version with disfluencies, but not tokenized (e.g. "don't" is not split as "do" + "n't")
     * fsh_1* is in valid, the rest in train
 * Stats: 
     * train: from 15522 files -- wc >> 1,181,752 sents; 14,363,366 tokens
     * valid: from 3137 files -- wc >> 268,991 sents; 2,841,422 tokens
+Recommendation: use the dtok version.
 
 # Steps
 Some of these are already done (this is for documentation purposes only)
 1. Split to train/valid (should be done already -- skip):
-Raw data: mv fisher/text/fsh_1* fisher_disf/valid/
-          mv fisher/text/* fisher_disf/train/
-
-Clean data: mv fisher/cleaned/fsh_1* fisher/cleaned/valid/
-            mv fisher/cleaned/* fisher/cleaned/train/ 
-
+Raw data: 
+```
+mv fisher/text/fsh_1* fisher_disf/valid/
+mv fisher/text/* fisher_disf/train/
+```
 
 2. Preprocessings (also should be done already -- skip):
-    2a0. (if files has associcated features -- dtok set):
+    2a0. (if files have associcated features -- dtok set):
     `./src/grep_words.sh {train,valid}`
 
     2a1. (clean and dtok set): merge words into sentences; this takes individual files from `fisher/cleaned/{train,valid}` and puts them in `fisher/fisher_clean/{train,valid}`
     `./src/merge_lines.sh {train,valid}`
 
-    2b. make big text file for ngram models (in both versions)
-    `cat train/* > train.txt`
-    `cat valid/* > valid.txt`
+    2b. make big text file to be used in ngram models
+    ```
+    cat train/* > train.txt
+    cat valid/* > valid.txt
+    ```
 
-    2c. change "s" to "'s" in train.txt and valid.txt (clean and disf, not in dtok)
+    2c. change "s" to "'s" in train.txt and valid.txt (clean and disf versions, not in dtok version)
     ```
     %s/\<s\>/'s/g
     %s/\<ll\>/'ll/g
@@ -55,15 +60,17 @@ split -d -n 10 valid.txt
 ```
 
 5. train ngrams
-`.ngrams/ngram-lms.sh {disf,clean,dtok}`
+`./src/ngrams/ngram-lms.sh {disf,clean,dtok}`
 
 6. Prepare switchboard (or other dataset) sentences to compute ppl score (should also be done already -- skip):
-`python prep_lm_sentences.py`
+`python src/prep_lm_sentences.py`
 
-This produces swbd_sents.tsv with turn, sent_num etc. info and ptb as well as ms
-versions of the sentences
+This produces swbd_sents.tsv with turn, sent_num etc. info and ptb as well as ms versions of the sentences. 
+* ptb = Penn Treebank version of transcripts
+* ms = Mississipi State version of transcripts
+For your purposes, you don't need to worry about the differences. Just pick ptb or ms.
 
-    6b. For ngram score computations -- produce text files one sent per line
+    6b. For ngram score computations -- produce text files one sentence per line
     ```
     cut -f5 swbd_sents.tsv > swbd_ms_sents.txt
     cut -f6 swbd_sents.tsv > swbd_ptb_sents.txt
@@ -76,7 +83,7 @@ versions of the sentences
     ```
 
 7. Compute ngram scores:
-`ngrams/ngram-eval.sh {disf,clean,dtok} {ms,ptb}`
+`./src/ngrams/ngram-eval.sh {disf,clean,dtok} {ms,ptb}`
 
 8. Convert OOV tokens to `<unk>` -- preparation step for LSTM LM models:
 ```
@@ -95,10 +102,10 @@ Then `cat x*_with_unk files > {train,valid}_with_unk.txt`
 NOTE: need to add special words to both clean and disf fisher vocabs: 
 `<eos>, <sos>, <pad>`
 
-`python lstm_lm/data_preprocess.py --dtype {disf,clean,dtok} --split {valid,train}`
+`python src/lstm_lm/data_preprocess.py --dtype {disf,clean,dtok} --split {valid,train}`
 
 10. Train LSTM LM on fisher and score on SWBD:
-`lstm_lm/job{5000,5001,5002}.sh`
+`./src/lstm_lm/job{5000,5001,5002}.sh`
 
 11. Make table of scores (optional):
 ```
