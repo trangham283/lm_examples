@@ -98,13 +98,14 @@ For ngram score computations -- produce text files one sentence per line:
  cut -f6 swbd_sents.tsv > swbd_ptb_sents.txt
  ```
 
- Then remove header line
  OR
 
  ```
  cut -f5 swbd_sents_with_ann_notok.tsv > swbd_ms_sents_notok.txt
  cut -f6 swbd_sents_with_ann_notok.tsv > swbd_ptb_sents_notok.txt
  ```
+ 
+ Then remove header line.
 
 **7. Compute ngram scores:**
 
