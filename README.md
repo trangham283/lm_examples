@@ -45,7 +45,7 @@ mv fisher/text/* fisher_disf/train/
     cat valid/* > valid.txt
     
 
-   2c. change "s" to "'s" in train.txt and valid.txt (clean and disf versions, not in dtok version):
+   2c. change things like "s" to "'s" in train.txt and valid.txt (clean and disf versions, not in dtok version):
     
     
     %s/\<s\>/'s/g
@@ -55,8 +55,6 @@ mv fisher/text/* fisher_disf/train/
     %s/\<d\>/'d/g
     %s/\<re\>/'re/g
     
-    
-   At this point only train.txt and valid.txt have this fix.
 
 ____________________________________________________
 The corresponding data are in `/g/ssli/projects/disfluencies/ttmt001/fisher_{disf,clean,dtok}`. 
@@ -86,10 +84,11 @@ split -d -n 10 valid.txt
 `python src/prep_lm_sentences.py`
 
 This produces swbd_sents.tsv with turn, sent_num etc. info and ptb as well as ms versions of the sentences. 
+
 * ptb = Penn Treebank version of transcripts
 * ms = Mississippi State version of transcripts
 
-For your purposes, you don't need to worry about the differences. Note, though that ms tokens don't split contractions while ptb ones do (e.g. "it's" in ms, "it 's" in ptb). So if you've been using the dtok version, it's better to choose ms; if you've been using disf or clean, use ptb.
+For your purposes, you don't need to worry about the differences. Note, though, that ms tokens don't split contractions while ptb ones do (e.g. "it's" in ms, "it 's" in ptb). So if you've been using the dtok version, it's better to choose ms; if you've been using disf or clean, use ptb.
 
 For ngram score computations -- produce text files one sentence per line:
 
