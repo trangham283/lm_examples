@@ -65,7 +65,7 @@ for your own understanding and practice.
 
 **3. Make vocabulary from training files** (specific to ngrams):
 
-`python ngrams/make_vocab.py --step make_vocab --dtype {disf,clean,dtok}`
+`python src/ngrams/make_vocab.py --step make_vocab --dtype {disf,clean,dtok}`
 
 **4. Split to smaller chunks:** 
 Need this for LSTM model only -- split train.txt and valid.txt into smaller chunks to facilitate parallelization (do this in the directory of your data):
@@ -109,6 +109,11 @@ For ngram score computations -- produce text files one sentence per line:
 **7. Compute ngram scores:**
 
 `./src/ngrams/ngram-eval.sh {disf,clean,dtok} {ms,ptb}`
+
+his computes LM model scores (perplexity) on the SWBD dataset.
+Exercise: 
+   1. Compute perplexity on the valid.txt data.
+   2. Find yourself a written text dataset and compute perplexity on that dataset. Compare ppl on these out-of-domain datasets.
 
 **8. Convert OOV tokens** to `<unk>` -- preparation step for LSTM LM models:
 ```
