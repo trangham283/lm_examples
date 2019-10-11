@@ -110,8 +110,10 @@ For ngram score computations -- produce text files one sentence per line:
 
 `./src/ngrams/ngram-eval.sh {disf,clean,dtok} {ms,ptb}`
 
-his computes LM model scores (perplexity) on the SWBD dataset.
-Exercise: 
+
+This computes LM model scores (perplexity) on the SWBD dataset.
+
+*Exercise*: 
    1. Compute perplexity on the valid.txt data.
    2. Find yourself a written text dataset and compute perplexity on that dataset. Compare ppl on these out-of-domain datasets.
 
