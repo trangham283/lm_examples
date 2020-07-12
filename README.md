@@ -3,7 +3,7 @@ Language model examples -- tutorial code for new grad students at TIAL lab.
 
 # Dependencies
 * SRI LM: /g/tial/sw/pkgs/srilm-1.7.1/bin/i686-m64/
-* Add `/g/tial/sw/pkgs/liblbfgs-1.10/lib` to `LD_LIBRARY_PATH`
+* Add `/g/tial/sw/pkgs/liblbfgs-1.10/lib` to `LD_LIBRARY_PATH` (check this after June patch and server move)
 * pytorch 0.4.0, cuda (or just use the CPU version)
 * Python 2.7.x
 
